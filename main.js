@@ -1,15 +1,10 @@
-
-
-
 window.onload = function() {
   alert("Bienvenido al Carrito"); 
-
 };
 
 function calculateTotal() {
   const checkboxes = document.querySelectorAll(".product-checkbox");
   let total = 0;
-
   // Sumar el precio de los productos seleccionados
   checkboxes.forEach((checkbox) => {
     if (checkbox.checked) {
@@ -50,7 +45,7 @@ function simulatePayment() {
     paymentResult = "No has seleccionado ningún producto.";
   } else {
     // Solicitar si es consumidor final o requiere factura A
-    const tipoFactura = prompt("¿Es consumidor final o requiere factura A? (Ingrese 'A' o 'Factura B')");
+    const tipoFactura = prompt("¿Es consumidor final o requiere factura A? (Ingrese 'A' o 'B' si es consumidor Final)");
 
     // Solicitar un número entero
     const numeroFactura = prompt("Por favor, ingrese su DNI o CUIT para factura A:");
