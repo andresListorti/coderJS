@@ -122,8 +122,16 @@
     <div id="cart">
       <h2>Total: $<span id="total">0</span></h2>
     </div>
-    <button onclick="simulatePayment()">Simular Pago</button>
+    <button onclick="displayPaymentForm()">Simular Pago</button>
+    <div id="payment-form" style="display:none;">
+      <label for="tipoFactura">Factura (A/B):</label>
+      <input type="text" id="tipoFactura" />
+      <label for="numeroFactura">DNI/CUIT:</label>
+      <input type="text" id="numeroFactura" />
+      <button onclick="simulatePayment()">Confirmar Pago</button>
+    </div>
     <div id="payment-result"></div>
+
 
     <script src="./main.js"></script>
   </body>

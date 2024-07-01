@@ -1,5 +1,5 @@
 window.onload = function() {
-  alert("Bienvenido al Carrito"); 
+  document.getElementById("payment-result").innerText = "Bienvenido al Carrito";
 };
 
 function calculateTotal() {
@@ -23,19 +23,18 @@ function calculateTotal() {
 
   // Obtener el código de descuento ingresado
   const discountCode = document.getElementById("discount-code").value;
-
-  // Buscar el código de descuento en el array
   const validDiscount = discountCodes.filter(discount => discount.code === discountCode);
 
-  // Si se encuentra un código de descuento válido, aplicar el descuento
   if (validDiscount.length > 0) {
     total = total * (1 - validDiscount[0].discount);
   }
 
-  // Mostrar el total con dos decimales
   document.getElementById("total").innerText = total.toFixed(2);
 }
 
+function displayPaymentForm() {
+  document.getElementById("payment-form").style.display = "block";
+}
 
 function simulatePayment() {
   const total = parseFloat(document.getElementById("total").innerText);
@@ -44,16 +43,16 @@ function simulatePayment() {
   if (total === 0) {
     paymentResult = "No has seleccionado ningún producto.";
   } else {
-    // Solicitar si es consumidor final o requiere factura A
-    const tipoFactura = prompt("¿Es consumidor final o requiere factura A? (Ingrese 'A' o 'B' si es consumidor Final)");
+    const tipoFactura = document.getElementById("tipoFactura").value;
+    const numeroFactura = document.getElementById("numeroFactura").value;
 
-    // Solicitar un número entero
-    const numeroFactura = prompt("Por favor, ingrese su DNI o CUIT para factura A:");
-
-    // Verificar si el número ingresado es válido
     if (!isNaN(numeroFactura) && Number.isInteger(parseFloat(numeroFactura))) {
-      paymentResult = `Pago exitoso! Has pagado $${total.toFixed(2)}. Su pago fue Exitoso: Factura ${tipoFactura} emitida contra ${numeroFactura}.`;
-      alert(`Su pago Exitoso: Factura ${tipoFactura} emitida contra ${numeroFactura}.`);
+      paymentResult = `Pago exitoso! Has pagado $${total.toFixed(2)}. Factura ${tipoFactura} emitida contra ${numeroFactura}.`;
+
+      localStorage.setItem('paymentData', JSON.stringify({
+        total: total.toFixed(2),
+        cuit: numeroFactura
+      }));
     } else {
       paymentResult = "El número ingresado no es válido.";
     }
