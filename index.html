@@ -1,138 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulación de Compra</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      .product {
-        margin-bottom: 10px;
-      }
-      label {
-        margin-left: 5px;
-      }
-      #cart {
-        margin-top: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Simulación de Compra</h1>
-    <div id="products">
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product1"
-          class="product-checkbox"
-          data-price="10"
-        />
-        <label for="product1">Producto 1 - $10</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product2"
-          class="product-checkbox"
-          data-price="15"
-        />
-        <label for="product2">Producto 2 - $15</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product3"
-          class="product-checkbox"
-          data-price="20"
-        />
-        <label for="product3">Producto 3 - $20</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product4"
-          class="product-checkbox"
-          data-price="25"
-        />
-        <label for="product4">Producto 4 - $25</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product5"
-          class="product-checkbox"
-          data-price="30"
-        />
-        <label for="product5">Producto 5 - $30</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product6"
-          class="product-checkbox"
-          data-price="35"
-        />
-        <label for="product6">Producto 6 - $35</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product7"
-          class="product-checkbox"
-          data-price="40"
-        />
-        <label for="product7">Producto 7 - $40</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product8"
-          class="product-checkbox"
-          data-price="45"
-        />
-        <label for="product8">Producto 8 - $45</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product9"
-          class="product-checkbox"
-          data-price="50"
-        />
-        <label for="product9">Producto 9 - $50</label>
-      </div>
-      <div class="product">
-        <input
-          type="checkbox"
-          id="product10"
-          class="product-checkbox"
-          data-price="55"
-        />
-        <label for="product10">Producto 10 - $55</label>
-      </div>
-    </div>
-    <div>
-      <label for="discount-code">Código de descuento:</label>
-      <input type="text" id="discount-code" />
-    </div>
-    <button onclick="calculateTotal()">Calcular Total</button>
-    <div id="cart">
-      <h2>Total: $<span id="total">0</span></h2>
-    </div>
-    <button onclick="displayPaymentForm()">Simular Pago</button>
-    <div id="payment-form" style="display:none;">
-      <label for="tipoFactura">Factura (A/B):</label>
-      <input type="text" id="tipoFactura" />
-      <label for="numeroFactura">DNI/CUIT:</label>
-      <input type="text" id="numeroFactura" />
-      <button onclick="simulatePayment()">Confirmar Pago</button>
-    </div>
-    <div id="payment-result"></div>
-
-
-    <script src="./main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación de Compra</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .product {
+      margin-bottom: 10px;
+    }
+    label {
+      margin-left: 5px;
+    }
+    #cart {
+      margin-top: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+  <h1>Simulación de Compra</h1>
+  <div id="products">
+    <!-- Productos cargados dinámicamente con fetch -->
+  </div>
+  <div>
+    <label for="discount-code">Código de descuento:</label>
+    <input type="text" id="discount-code">
+  </div>
+  <button onclick="calculateTotal()">Calcular Total</button>
+  <div id="cart">
+    <h2>Total: $<span id="total">0</span></h2>
+  </div>
+  <button onclick="displayPaymentForm()">Simular Pago</button>
+  <div id="payment-form" style="display:none;">
+    <label for="tipoFactura">Factura (A/B):</label>
+    <input type="text" id="tipoFactura">
+    <label for="numeroFactura">DNI/CUIT:</label>
+    <input type="text" id="numeroFactura">
+    <button onclick="simulatePayment()">Confirmar Pago</button>
+  </div>
+  <div id="payment-result"></div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <script src="./main.js"></script>
+</body>
 </html>

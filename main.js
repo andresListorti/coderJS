@@ -1,18 +1,47 @@
-window.onload = function() {
+window.onload = async function() {
   document.getElementById("payment-result").innerText = "Bienvenido al Carrito";
+  await loadProducts();
 };
 
-function calculateTotal() {
+async function loadProducts() {
+  try {
+    const response = await fetch('./products.json');
+    const products = await response.json();
+
+    const productsDiv = document.getElementById('products');
+    products.forEach(product => {
+      const productDiv = document.createElement('div');
+      productDiv.classList.add('product');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `product${product.id}`;
+      checkbox.classList.add('product-checkbox');
+      checkbox.setAttribute('data-price', product.price);
+
+      const label = document.createElement('label');
+      label.setAttribute('for', `product${product.id}`);
+      label.innerText = `${product.name} - $${product.price}`;
+
+      productDiv.appendChild(checkbox);
+      productDiv.appendChild(label);
+      productsDiv.appendChild(productDiv);
+    });
+  } catch (error) {
+    console.error('Error loading products:', error);
+  }
+}
+
+async function calculateTotal() {
   const checkboxes = document.querySelectorAll(".product-checkbox");
   let total = 0;
-  // Sumar el precio de los productos seleccionados
-  checkboxes.forEach((checkbox) => {
+
+  checkboxes.forEach(checkbox => {
     if (checkbox.checked) {
       total += parseInt(checkbox.getAttribute("data-price"));
     }
   });
 
-  // Array de objetos con códigos de descuento
   const discountCodes = [
     { code: "1191", discount: 0.2 },
     { code: "2345", discount: 0.15 },
@@ -21,12 +50,11 @@ function calculateTotal() {
     { code: "1122", discount: 0.3 }
   ];
 
-  // Obtener el código de descuento ingresado
   const discountCode = document.getElementById("discount-code").value;
-  const validDiscount = discountCodes.filter(discount => discount.code === discountCode);
+  const validDiscount = discountCodes.find(discount => discount.code === discountCode);
 
-  if (validDiscount.length > 0) {
-    total = total * (1 - validDiscount[0].discount);
+  if (validDiscount) {
+    total *= (1 - validDiscount.discount);
   }
 
   document.getElementById("total").innerText = total.toFixed(2);
@@ -36,27 +64,31 @@ function displayPaymentForm() {
   document.getElementById("payment-form").style.display = "block";
 }
 
-function simulatePayment() {
+async function simulatePayment() {
   const total = parseFloat(document.getElementById("total").innerText);
   let paymentResult = "";
 
   if (total === 0) {
-    paymentResult = "No has seleccionado ningún producto.";
-  } else {
-    const tipoFactura = document.getElementById("tipoFactura").value;
-    const numeroFactura = document.getElementById("numeroFactura").value;
-
-    if (!isNaN(numeroFactura) && Number.isInteger(parseFloat(numeroFactura))) {
-      paymentResult = `Pago exitoso! Has pagado $${total.toFixed(2)}. Factura ${tipoFactura} emitida contra ${numeroFactura}.`;
-
-      localStorage.setItem('paymentData', JSON.stringify({
-        total: total.toFixed(2),
-        cuit: numeroFactura
-      }));
+    Swal.fire('Error', 'No has seleccionado ningún producto.', 'error');
     } else {
-      paymentResult = "El número ingresado no es válido.";
+      const tipoFactura = document.getElementById("tipoFactura").value;
+      const numeroFactura = document.getElementById("numeroFactura").value;
+  
+      if (!isNaN(numeroFactura) && Number.isInteger(parseFloat(numeroFactura))) {
+        paymentResult = `Pago exitoso! Has pagado $${total.toFixed(2)}. Factura ${tipoFactura} emitida contra ${numeroFactura}.`;
+  
+        localStorage.setItem('paymentData', JSON.stringify({
+          total: total.toFixed(2),
+          cuit: numeroFactura
+        }));
+  
+        Swal.fire('Pago Exitoso', paymentResult, 'success');
+      } else {
+        paymentResult = "El número ingresado no es válido.";
+        Swal.fire('Error', paymentResult, 'error');
+      }
     }
+  
+    document.getElementById("payment-result").innerText = paymentResult;
   }
-
-  document.getElementById("payment-result").innerText = paymentResult;
-}
+  
